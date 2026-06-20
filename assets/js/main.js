@@ -244,5 +244,80 @@ document.addEventListener("DOMContentLoaded", function() {
       window.open(waUrl, '_blank');
     });
   }
+
+  // Tambahkan tombol WhatsApp melayang otomatis jika belum ada
+  if (!document.querySelector('.whatsapp-float')) {
+    const phoneNumber = '6281123456789';
+    const whatsappButton = document.createElement('a');
+    whatsappButton.href = `https://wa.me/${phoneNumber}`;
+    whatsappButton.target = '_blank';
+    whatsappButton.rel = 'noopener noreferrer';
+    whatsappButton.className = 'whatsapp-float';
+    whatsappButton.title = 'Hubungi Kami via WhatsApp';
+    whatsappButton.innerHTML = '<i class="bi bi-whatsapp"></i>';
+    document.body.appendChild(whatsappButton);
+  }
 });
 
+/**
+ * -----------------------------------------------------
+ * Custom Script: Menghubungkan Link Footer ke Filter Isotope (Lintas Halaman)
+ * -----------------------------------------------------
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Cek URL saat halaman baru dimuat (berguna jika pindah dari index.html ke products.html)
+  const urlParams = new URLSearchParams(window.location.search);
+  const filterParam = urlParams.get('filter'); // Mendapatkan parameter filter, misal: .filter-tumbler
+  
+  const mainFilters = document.querySelectorAll('.portfolio-filters li');
+  const productsSection = document.querySelector('#products');
+
+  // Jika ada parameter filter di URL DAN kita sedang berada di halaman products.html
+  if (filterParam && mainFilters.length > 0 && productsSection) {
+    // Beri jeda 500ms agar plugin Isotope (layouting gambar) selesai memuat terlebih dahulu
+    setTimeout(() => {
+      mainFilters.forEach(mainFilter => {
+        if (mainFilter.getAttribute('data-filter') === filterParam) {
+          mainFilter.click(); // Otomatis mengklik label filter yang sesuai
+        }
+      });
+      // Scroll perlahan ke bagian produk
+      let scrollMarginTop = getComputedStyle(productsSection).scrollMarginTop || "0px";
+      window.scrollTo({
+        top: productsSection.offsetTop - parseInt(scrollMarginTop),
+        behavior: 'smooth'
+      });
+    }, 500);
+  }
+
+  // 2. Aksi jika tombol footer diklik (Berguna jika sudah berada di dalam products.html)
+  const footerFilterBtns = document.querySelectorAll('.footer-filter-btn');
+  
+  footerFilterBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      // Cek apakah kita SEDANG berada di halaman produk
+      if (productsSection && mainFilters.length > 0) {
+        e.preventDefault(); // Mencegah loading ulang halaman
+        
+        const filterValue = this.getAttribute('data-filter');
+        
+        mainFilters.forEach(mainFilter => {
+          if (mainFilter.getAttribute('data-filter') === filterValue) {
+            mainFilter.click();
+          }
+        });
+
+        let scrollMarginTop = getComputedStyle(productsSection).scrollMarginTop || "0px";
+        window.scrollTo({
+          top: productsSection.offsetTop - parseInt(scrollMarginTop),
+          behavior: 'smooth'
+        });
+        
+        // Memperbarui URL di browser tanpa reload halaman (agar rapi)
+        window.history.pushState({}, '', `products.html?filter=${filterValue}#products`);
+      }
+      // CATATAN: Jika kita di index.html, JavaScript akan membiarkan link bekerja normal
+      // dan browser akan berpindah ke products.html membawa parameter ?filter=...
+    });
+  });
+});
