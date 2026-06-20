@@ -4213,7 +4213,7 @@ section,
   position: fixed;
   right: 15px;
   bottom: 74px; /* Diatur agar melayang tepat di atas tombol scroll-top (yang menggunakan bottom: 15px + tinggi tombol) */
-  z-index: 99999;
+  z-index: 100000;
   background-color: #25d366; /* Warna resmi WhatsApp */
   color: #ffffff;
   width: 44px;
@@ -4481,4 +4481,342 @@ section,
 --------------------------------------------------------------*/
 .blog.section.border-top {
   border-top-color: color-mix(in srgb, var(--default-color), transparent 90%) !important;
+}
+
+/*--------------------------------------------------------------
+# Custom About Page Elements (Vision & Mission)
+--------------------------------------------------------------*/
+.vision-mission .vm-card {
+  background: var(--surface-color);
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.vision-mission .vm-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent-color);
+  box-shadow: 0 20px 40px color-mix(in srgb, var(--accent-color), transparent 85%);
+}
+
+.vision-mission .vm-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent-color), transparent 85%), color-mix(in srgb, var(--accent-color), transparent 95%));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.vision-mission .vm-icon i {
+  font-size: 32px;
+  color: var(--accent-color);
+}
+
+.vision-mission .vm-card h4 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--heading-color);
+}
+
+.vision-mission .vm-card p {
+  color: color-mix(in srgb, var(--default-color), transparent 25%);
+  line-height: 1.6;
+}
+
+.vision-mission .vm-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vision-mission .vm-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+  line-height: 1.5;
+}
+
+.vision-mission .vm-list li i {
+  color: var(--accent-color);
+  font-size: 1.1rem;
+  margin-right: 10px;
+  margin-top: 2px;
+}
+
+/*--------------------------------------------------------------
+# Products Page Specific Styling
+--------------------------------------------------------------*/
+.products .product-card {
+  background-color: var(--surface-color);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--default-color), transparent 95%);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Dihilangkan border/garis hitam sesuai preferensi */
+  border: none; 
+}
+
+.products .product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px color-mix(in srgb, var(--accent-color), transparent 85%);
+}
+
+.products .product-img {
+  overflow: hidden;
+  position: relative;
+}
+
+.products .product-img img {
+  width: 100%;
+  /* Memastikan format gambar selalu landscape / miring horizontal */
+  aspect-ratio: 4 / 3; 
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.products .product-card:hover .product-img img {
+  transform: scale(1.05);
+}
+
+.products .product-content {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center; /* Memastikan konten berada di tengah */
+}
+
+.products .product-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--heading-color);
+  /* Judul diposisikan tepat di tengah */
+  text-align: center; 
+  line-height: 1.4;
+}
+
+.products .product-desc {
+  color: color-mix(in srgb, var(--default-color), transparent 30%);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 25px;
+  flex-grow: 1;
+}
+
+.products .btn-order {
+  display: inline-block;
+  padding: 10px 28px;
+  background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+  color: var(--accent-color);
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.products .btn-order:hover {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px color-mix(in srgb, var(--accent-color), transparent 75%);
+}
+
+/*--------------------------------------------------------------
+# Products Filter / Label Styling (Pill Shape)
+--------------------------------------------------------------*/
+.products .portfolio-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 768px) {
+  .products .portfolio-filters {
+    gap: 6px;
+    margin-bottom: 30px;
+  }
+}
+
+.products .portfolio-filters li {
+  padding: 12px 24px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--surface-color);
+  color: var(--default-color);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .products .portfolio-filters li {
+    padding: 10px 18px;
+    font-size: 0.8rem;
+  }
+}
+
+.products .portfolio-filters li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.products .portfolio-filters li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--accent-color), transparent 85%);
+  border-color: var(--accent-color);
+}
+
+.products .portfolio-filters li:hover::before {
+  left: 100%;
+}
+
+.products .portfolio-filters li.filter-active {
+  background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), #4338ca 20%));
+  color: var(--contrast-color);
+  border-color: var(--accent-color);
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--accent-color), transparent 70%);
+}
+
+/*--------------------------------------------------------------
+# Custom Service Page Cards 
+--------------------------------------------------------------*/
+.service-page .service-page-card {
+  background-color: var(--surface-color);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--default-color), transparent 95%);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Memastikan tidak ada garis hitam/border */
+  border: none; 
+}
+
+.service-page .service-page-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px color-mix(in srgb, var(--accent-color), transparent 85%);
+}
+
+.service-page .service-page-img {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.service-page .service-page-img img {
+  width: 100%;
+  /* Format gambar selalu landscape / miring horizontal */
+  aspect-ratio: 4 / 3; 
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.service-page .service-page-card:hover .service-page-img img {
+  transform: scale(1.05);
+}
+
+.service-page .service-page-content {
+  padding: 30px 25px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  /* Memastikan konten (termasuk judul) berada di tengah */
+  align-items: center; 
+  text-align: center;
+}
+
+.service-page .service-page-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--heading-color);
+  /* Judul diposisikan tepat di tengah */
+  text-align: center; 
+  line-height: 1.4;
+}
+
+.service-page .service-page-desc {
+  color: color-mix(in srgb, var(--default-color), transparent 30%);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  flex-grow: 1;
+}
+
+.service-page .btn-detail {
+  display: inline-block;
+  padding: 10px 28px;
+  background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+  color: var(--accent-color);
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.service-page .btn-detail:hover {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px color-mix(in srgb, var(--accent-color), transparent 75%);
+}
+
+/*--------------------------------------------------------------
+# Custom Service Page Styling
+--------------------------------------------------------------*/
+/* Menghilangkan garis tepi dan memastikan semua elemen rata tengah */
+.services-page .service-card {
+  border: none !important; 
+  text-align: center !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05); 
+  padding: 40px 30px;
+}
+
+.services-page .service-card .service-icon {
+  margin: 0 auto 25px auto !important; 
+  display: flex;
+  justify-content: center;
+}
+
+.services-page .service-card h4 {
+  text-align: center !important;
+  width: 100%;
+}
+
+.services-page .service-card p {
+  text-align: center !important;
+}
+
+.services-page .service-card .service-link {
+  justify-content: center;
+  width: 100%;
 }
