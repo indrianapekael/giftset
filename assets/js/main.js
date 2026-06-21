@@ -321,3 +321,116 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+/**
+ * -----------------------------------------------------
+ * Custom Script: Keep Home Nav Active
+ * -----------------------------------------------------
+ */
+document.addEventListener('DOMContentLoaded', function() {
+  const navLinks = document.querySelectorAll('#navmenu ul li a');
+  const homeLink = document.querySelector('#navmenu ul li a[href="#hero"]');
+  
+  // Observer untuk memaksa class 'active' tetap ada meski dihapus oleh script scrollspy
+  if (homeLink) {
+    const observer = new MutationObserver(function() {
+      if (!homeLink.classList.contains('active')) {
+        homeLink.classList.add('active');
+      }
+    });
+    observer.observe(homeLink, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      // Hanya memproses link yang mengarah ke bagian halaman yang sama (anchors)
+      if(this.getAttribute('href').startsWith('#')) {
+        // Hapus class active dari link lain, tapi pastikan Home tidak ikut terhapus logic-nya
+        navLinks.forEach(nav => {
+           if (nav !== homeLink) {
+             nav.classList.remove('active');
+           }
+        });
+        this.classList.add('active');
+      }
+    });
+  });
+});
+
+/**
+ * -----------------------------------------------------
+ * Custom Script: Menghubungkan Link Footer ke Filter Isotope (Lintas Halaman)
+ * -----------------------------------------------------
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const filterParam = urlParams.get('filter'); 
+  
+  const mainFilters = document.querySelectorAll('.portfolio-filters li');
+  const targetSection = document.querySelector('#products') || document.querySelector('#portfolio');
+
+  // 1. Aksi JIKA halaman BARU DIBUKA dan memiliki parameter '?filter=' di URL
+  if (filterParam && mainFilters.length > 0 && targetSection) {
+    // Jeda 500ms agar susunan grid gambar (Isotope) selesai termuat
+    setTimeout(() => {
+      mainFilters.forEach(mainFilter => {
+        if (mainFilter.getAttribute('data-filter') === filterParam) {
+          mainFilter.click(); 
+        }
+      });
+      let scrollMarginTop = getComputedStyle(targetSection).scrollMarginTop || "0px";
+      window.scrollTo({
+        top: targetSection.offsetTop - parseInt(scrollMarginTop),
+        behavior: 'smooth'
+      });
+    }, 500);
+  }
+
+  // 2. Aksi JIKA tombol footer diklik
+  const footerFilterBtns = document.querySelectorAll('.footer-filter-btn');
+  
+  footerFilterBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const hrefValue = this.getAttribute('href'); // cth: "portfolio.html?filter=.filter-web#portfolio"
+
+      // Deteksi kita sedang di halaman mana vs tujuan linknya ke halaman mana
+      const linkPath = hrefValue.split('?')[0].split('#')[0]; // cth: "portfolio.html"
+      const currentPath = window.location.pathname.split('/').pop(); // cth: "index.html" atau "portfolio.html"
+
+      // Cek apakah user SUDAH BERADA di halaman yang sama dengan tujuan link
+      // Jika linkPath kosong (misal cuma "#portfolio"), anggap itu halaman yang sama
+      const isSamePage = (linkPath === currentPath) || (linkPath === '');
+
+      // JIKA DI HALAMAN YANG SAMA: Filter langsung tanpa reload
+      if (isSamePage) {
+        e.preventDefault(); // Jangan reload/pindah halaman
+
+        const filterValue = this.getAttribute('data-filter');
+        const targetId = hrefValue.includes('#') ? hrefValue.split('#')[1] : '';
+        const section = document.getElementById(targetId);
+
+        if (mainFilters.length > 0) {
+          mainFilters.forEach(mainFilter => {
+            if (mainFilter.getAttribute('data-filter') === filterValue) {
+              mainFilter.click();
+            }
+          });
+
+          if (section) {
+            let scrollMarginTop = getComputedStyle(section).scrollMarginTop || "0px";
+            window.scrollTo({
+              top: section.offsetTop - parseInt(scrollMarginTop),
+              behavior: 'smooth'
+            });
+          }
+          
+          // Update URL di browser tanpa reload
+          window.history.pushState({}, '', hrefValue);
+        }
+      } 
+      // JIKA DI HALAMAN BERBEDA (cth: dari index.html klik link ke portfolio.html):
+      // Kita biarkan browser bekerja normal memuat halaman portfolio.html.
+      // Setelah halaman portfolio.html terbuka, blok kode #1 di atas akan otomatis berjalan.
+    });
+  });
+});
