@@ -434,3 +434,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+function sendToWhatsAppBox() {
+  // Mengambil nilai data berdasarkan ID input khusus form box
+  const name = document.getElementById('inputNameBox').value.trim();
+  const email = document.getElementById('inputEmailBox').value.trim();
+  const phone = document.getElementById('inputPhoneBox').value.trim();
+  const subject = document.getElementById('inputSubjectBox').value.trim();
+  const message = document.getElementById('inputMessageBox').value.trim();
+
+  // Validasi wajib isi kolom nama, email, dan deskripsi pesan
+  if (!name || !email || !message) {
+    alert("Harap isi nama lengkap, email, dan detail kemasan yang diinginkan terlebih dahulu!");
+    return;
+  }
+
+  // Nomor WhatsApp tujuan 
+  const nomorWA = "628987654321"; 
+
+  // Format penyusunan struktur teks pesan WhatsApp
+  const teksPesan = `Halo Soleria Gift, saya ingin mengajukan penawaran desain kotak eksklusif.%0A%0A` +
+                    `*Nama:* ${encodeURIComponent(name)}%0A` +
+                    `*Email:* ${encodeURIComponent(email)}%0A` +
+                    `*Nomor Telepon:* ${encodeURIComponent(phone)}%0A` +
+                    `*Subjek:* ${encodeURIComponent(subject)}%0A` +
+                    `*Detail Kebutuhan Kemasan:*%0A${encodeURIComponent(message)}`;
+
+  const urlWhatsApp = `https://wa.me/${nomorWA}?text=${teksPesan}`;
+  
+  // Alihkan menuju aplikasi WhatsApp di tab baru
+  window.open(urlWhatsApp, '_blank');
+}
